@@ -1,4 +1,6 @@
 import re
+import requests
+from bs4 import BeautifulSoup
 
 # Регулярное выражение для формата UTC
 utc_pattern = r'\b(\d{4})-(\d{2})-(\d{2})T([01]?\d|2[0-3]):([0-5]\d):([0-5]\d)(Z|[+-][01]\d:[0-5]\d)?\b'
@@ -34,7 +36,8 @@ def print_menu():
     print("\nМеню:")
     print("1. Найти корректные времена в формате UTC в файле txt")
     print("2. Ввести время и проверить его на корректность формата UTC" )
-    print("3. Выйти")
+    print("3. Найти корректные времена в формате UTC на URL-странице" )
+    print("4. Выйти")
 
 def main():
     file_path = "utc_times.txt"  # Путь к файлу, который будет использоваться для поиска времени
@@ -51,6 +54,17 @@ def main():
             check_times_from_input()
             break
         elif choice == "3":
+            url = input("Введите URL страницы для проверки времени: ").strip()
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            paragraphs = soup.find_all('p')
+            for text in paragraphs:
+                if is_valid_utc_time(text.get_text()):
+                    print(f"{text.get_text()} - Время корректное")
+                else:
+                    print(f"{text.get_text()} - Время некорректное")
+            break
+        elif choice == "4":
             print("Выход из программы...")
             break
 
