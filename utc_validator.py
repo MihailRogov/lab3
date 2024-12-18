@@ -29,3 +29,33 @@ def check_times_from_input():
             print(f"Время '{user_input}' является корректным в формате UTC.")
         else:
             print(f"Время '{user_input}' не соответствует формату UTC.")
+
+def print_menu():
+    print("\nМеню:")
+    print("1. Найти корректные времена в формате UTC в файле txt")
+    print("2. Ввести время и проверить его на корректность формата UTC" )
+    print("3. Выйти")
+
+def main():
+    file_path = "utc_times.txt"  # Путь к файлу, который будет использоваться для поиска времени
+
+    while True:
+        print_menu()
+        choice = input("Выберите действие: ")
+
+        if choice == "1":
+            print("Поиск корректных времен в формате UTC...")
+            find_utc_times(file_path)
+
+        elif choice == "2":
+            check_times_from_input()
+            break
+        elif choice == "3":
+            print("Выход из программы...")
+            break
+
+        else:
+            print("Неверный выбор. Пожалуйста, выберите действие из меню.")
+
+if __name__ == "__main__":
+    main()
